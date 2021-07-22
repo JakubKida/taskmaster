@@ -1,56 +1,23 @@
-import {formatDistance} from 'date-fns'
+import ToDoList from './modules/ProjectsList.js'
 
-class ToDo {
-    constructor(name,project,dueDate,priority){
-        this.name = name;
-        this.project = project;
-        this.isFinished = false
-        this.creationDate = new Date();
-        this.dueDate = dueDate;
-        this.priority = priority;
-    }
-    displayItems(){
-        // console.log(this.name,this.isFinished,this.project,this.creationDate.getDate(),this.dueDate.getDate(),this.priority);
-        console.log(`\nName : ${this.name}`);
-        console.log(`Is it done ? ${this.isFinished?'v':'x'}`);
-        console.log(`Time Left: ${formatDistance(this.dueDate,new Date())}`);
-    }
-
-
-    toggle(){
-        this.isFinished=(this.isFinished?false:true);
-    }
-}
 let sampleDate = new Date(2021,6,24);
+let sampleProjectList = new ToDoList();
 
-// let sampleToDo = new toDo('Dishes','Homework',sampleDate,10);
+// sampleProject.addToDo('Dishes',sampleDate,4);
+// sampleProject.addToDo('Vacuum',sampleDate,5);
+// sampleProject.addToDo('Cleaning',sampleDate,7);
 
-// sampleToDo.displayItems();
+// sampleProject.displayTodos();
+// sampleProject._toDos[0].toggle();
+// sampleProject.displayTodos();
 
-class Project {
-    constructor(name){
-        this.name = name;
-    }
-    _toDos =[];
 
-    addToDo(title,dueDate,priority){
-        this._toDos.push(new ToDo(title,this.name,dueDate,priority))
-    }
-
-    displayTodos(){
-        console.log(`Project: ${this.name}`);
-        this._toDos.forEach((toDo)=>{
-            toDo.displayItems();
-        })
-    }
-}
-
-let sampleProject = new Project('Homework');
-
-sampleProject.addToDo('Dishes',sampleDate,4);
-sampleProject.addToDo('Vacuum',sampleDate,5);
-sampleProject.addToDo('Cleaning',sampleDate,7);
-
-sampleProject.displayTodos();
-sampleProject._toDos[0].toggle();
-sampleProject.displayTodos();
+sampleProjectList.displayAllProjects();
+sampleProjectList.addToDoToProject('Today','Dishes',sampleDate,10);
+sampleProjectList.displayAllProjects();
+sampleProjectList.addProject('Learning');
+sampleProjectList.addToDoToProject('Learning','python',sampleDate,10);
+sampleProjectList.toggleToDoInProject('Today',0);
+sampleProjectList.displayAllProjects();
+sampleProjectList.editProjectName('Learning','Teaching');
+sampleProjectList.displayAllProjects();
