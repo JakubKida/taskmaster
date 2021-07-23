@@ -9,6 +9,7 @@ export default class ToDo {
         this.dueDate = dueDate;
         this.priority = priority;
     }
+    
     displayItems(){
         // console.log(this.name,this.isFinished,this.project,this.creationDate.getDate(),this.dueDate.getDate(),this.priority);
         console.log(`\nName : ${this.name}`);
