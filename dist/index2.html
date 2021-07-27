@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-Master</title>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/16ab966864.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oldenburg&family=Roboto:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header id="header">
+        <h1 id="title">
+            <i class="far fa-check-square"></i>
+            TaskMaster - just check it!
+        </h1>
+    </header>
+    <main id="main-wrapper">
+        <div id="projects-picker">
+            <div id='time-tabs'>
+                <h2 id="projects-header">
+                    Main & Upcoming Tasks
+                </h2>
+                <div class="project-tab">
+                    <span class="icon-hidden"><i class="project-icon fas fa-exclamation fa-sm"></i></span>
+                    General
+                </div>
+                <div class="project-tab">
+                    <span class="icon-shown"><i class="project-icon fas fa-exclamation fa-sm"></i></span>
+                    <div class="project-title">Today</div>
+                </div>
+                <div class="project-tab">
+                    <span class="icon-shown"><i class="project-icon fas fa-calendar-day fa-sm"></i></span>
+                    This Week
+                </div>
+                <div class="project-tab">
+                    <span class="icon-shown"><i class="project-icon fas fa-calendar-alt fa-sm"></i></span>
+                    This Month
+                </div>
+            </div>
+            <div id="project-tabs">
+                <h2 id="projects-header"> Projects</h2>
+                <div id="add-project-button" class="project-tab">Add new project</div>
+                <div class='project-tab add-project-input'>
+                    <input class="project-text-input" type="text">
+                    <i class="confirm-project-icon fas fa-check"></i>
+                    <i class="cancel-project-icon fas fa-times"></i>
+                </div>
+                <div class="project-tab">
+                    <p class="project-title">Project 1</p>
+                    <i class="delete-project-icon fas fa-times"></i>
+                </div>
+                <div class="project-tab">
+                    <p class="project-title">Project 1</p>
+                    <i class="delete-project-icon fas fa-times"></i>
+                </div>
+                <div class="project-tab">
+                    <p class="project-title">Project 1</p>
+                    <i class="delete-project-icon fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div id="project-area">
+            <div class="project-card">
+                <div class="project-name">General</div>
+                <div class='todos-area'>
+                    <div class="add-clear-todos">
+                        <div class='todo add-todo'>
+                            <p class='add-todo-text' data-UUID='bjak-osic-ajvc-isau'>Add new To-Do</p>
+                        </div>
+                        <div class='todo clear-todo'>
+                            <p class='add-todo-text'>Clear completed To-Dos</p>
+                        </div>
+                    </div>
+                    <form class='todo create-todo-form'>
+                        <input class="todo-name-input" type="text" placeholder="What needs to be done?">
+                        <label for="todo-priority-picker">Priority:</label>
+                        <select id="todo-priority-picker" class="todo-priority-picker">
+                            <option value='0' selected>Not set</option>
+                            <option value='1' selected>Relevant</option>
+                            <option value='2' selected>Important</option>
+                            <option value='3' selected>Critical</option>
+                        </select>
+                        <label for="due-date-picker">Due date:</label>
+                        <input id='due-date-picker' value='0' class="due-date-picker" type="date" placeholder="pick due date"> 
+                        <div class="accept-new-todo">Add</div>
+                        <div class="cancel-new-todo">Cancel</div>
+                    </form>
+                    <div class='todo'>
+                        <div class="priority-indicator"></div>
+                        <input class="todo-checkbox" type="checkbox">
+                        <p class='todo-title'>Dishes</p>
+                        <p class='todo-time-left'>10 hours left</p>
+                        <i class="delete-todo-icon fas fa-times"></i>
+                    </div>
+                    <div class='todo'>
+                        <div class="priority-indicator"></div>
+                        <input class="todo-checkbox" type="checkbox">
+                        <p class='todo-title'>Dishes</p>
+                        <p class='todo-time-left'>10 hours left</p>
+                        <i class="delete-todo-icon fas fa-times"></i>
+                    </div>
+                    <div class='todo'>
+                        <div class="priority-indicator"></div>
+                        <input class="todo-checkbox" type="checkbox">
+                        <p class='todo-title'>Dishes</p>
+                        <p class='todo-time-left'>10 hours left</p>
+                        <i class="delete-todo-icon fas fa-times"></i>
+                    </div>
+                    <div class='todo'>
+                        <div class="priority-indicator"></div>
+                        <input class="todo-checkbox" type="checkbox">
+                        <p class='todo-title'>Dishes</p>
+                        <p class='todo-time-left'>10 hours left</p>
+                        <i class="delete-todo-icon fas fa-times"></i>
+                    </div>
+                    <div class='todo'>
+                        <div class="priority-indicator"></div>
+                        <input class="todo-checkbox" type="checkbox">
+                        <p class='todo-title'>Dishes</p>
+                        <p class='todo-time-left'>10 hours left</p>
+                        <i class="delete-todo-icon fas fa-times"></i>
+                    </div>
+                    <div class='todo'>
+                        <div class="priority-indicator"></div>
+                        <input class="todo-checkbox" type="checkbox">
+                        <p class='todo-title'>Dishes</p>
+                        <p class='todo-time-left'>10 hours left</p>
+                        <i class="delete-todo-icon fas fa-times"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

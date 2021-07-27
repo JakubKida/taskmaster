@@ -1,32 +1,45 @@
-import {formatDistance} from 'date-fns'
+import { v4 as uuidv4 } from 'uuid';
+import {formatDistance,parseISO} from 'date-fns'
 
 export default class ToDo {
-    constructor(name,project,dueDate,priority){
-        this.name = name;
-        this.project = project;
-        this.isFinished = false;
-        this.creationDate = new Date();
-        this.dueDate = dueDate;
-        this.priority = priority;
+    constructor(name,project,dueDate,priority,id){
+        this._name = name;
+        this._project = project;
+        this._isFinished = false;
+        this._creationDate = new Date();
+        this._dueDate = dueDate;
+        this._priority = priority;
+
+        if (id !== undefined) {
+            this._id=id;
+        } else { 
+            this._id = uuidv4(); 
+        }
     }
     
     displayItems(){
-        // console.log(this.name,this.isFinished,this.project,this.creationDate.getDate(),this.dueDate.getDate(),this.priority);
-        console.log(`\nName : ${this.name}`);
-        console.log(`Is it done ? ${this.isFinished?'v':'x'}`);
-        console.log(`Time Left: ${formatDistance(this.dueDate,new Date())}`);
+        console.log(`\nId : ${this._id}`);
+        console.log(`Name : ${this._name}`);
+        console.log(`Is it done ? ${this._isFinished?'v':'x'}`);
+        console.log(`Time Left: ${formatDistance(this._dueDate,new Date())}`);
     }
 
     getDetails(){
-        return [this,isFinished,this.name,this.creationDate,this.getTimeleft(),this.priority];
+        return [this._isFinished,this._name,this._creationDate,this.getTimeleft(),this._priority];
+    }
+
+    editDetails(toDoTitle,dueDate,priority){
+        this._name=toDoTitle;
+        this._dueDate=dueDate;
+        this._priority=priority;
     }
 
     toggle(){
-        this.isFinished=(this.isFinished?false:true);
+        this._isFinished=(this._isFinished?false:true);
     }
 
     getTimeLeft(){
-        if(this.dueDate==='not set') return 'not set';
-        return formatDistance(this.dueDate,new Date());
+        if(this._dueDate==='not set') return 'not set';
+        return formatDistance(parseISO(this._dueDate),new Date());
     }
 }

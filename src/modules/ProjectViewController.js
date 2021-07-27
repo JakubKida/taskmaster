@@ -5,10 +5,13 @@ import DOMController from './DOMController.js';
 export default class ProjectViewController{
     constructor(){
         this.projectList = new ProjectsList();
+
         this.storageController = new StorageController();
         this.storageController.getAllProjects().forEach(project=>this.projectList.addProject(project));
+
         this.DOMController = new DOMController();
         this.DOMController.initializePage();
+        
         this.currentProject = this.projectList.getProject('General');
     }
 
@@ -19,5 +22,7 @@ export default class ProjectViewController{
 
     addNewProject(name){
         this.projectList.addProject(name);
+        this.DOMController.addProject(name);
+        this.storageController.saveAllProjects();
     }
 }
