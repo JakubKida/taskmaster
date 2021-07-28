@@ -27,6 +27,15 @@ export default class ProjectsList{
         }
     }
 
+    getProjectInfo(projectId){
+        let projectToGetInfo = this.getProject(projectId);
+        if (projectToGetInfo!==false){
+            return [projectToGetInfo._id,projectToGetInfo._name]
+        } else {
+            return false;
+        }
+    }
+
     editProjectName(projectId,newProjectName){
         let projectToEdit = this.getProject(projectId);
         if (projectToEdit!==false) projectToEdit.name = newProjectName;
@@ -78,6 +87,16 @@ export default class ProjectsList{
 
     displayAllProjects(){
         this._projects.forEach(project=>project.displayTodos());
+    }
+
+    getTodosFromPeriod(period){
+        let periodTodos = [];
+        this._projects.forEach(project=>{
+            project._toDos.forEach(todo=>{
+                if(todo.isWithinInteral(period)) periodTodos.push(todo.getDetails());
+            })
+        })
+        return periodTodos;
     }
     // saveToStorage(){}
     // getTodayTodos()

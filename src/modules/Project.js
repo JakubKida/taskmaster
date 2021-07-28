@@ -15,18 +15,6 @@ export default class Project {
         }
     }
 
-    get name(){
-        return this._name;
-    }
-
-    set name(newName){
-        this._name = newName;
-    }
-
-    get toDos(){
-        return this._toDos;
-    }
-
     getTodo(toDoId){
         return this._toDos.find((todo)=>todo._id===toDoId);
     }

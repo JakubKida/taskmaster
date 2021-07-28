@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import {formatDistance,parseISO} from 'date-fns'
+import {isToday,isThisWeek,isThisMonth,formatDistance,parseISO,differenceInDays,differenceInWeeks,differenceInMonths} from 'date-fns'
 
 export default class ToDo {
     constructor(name,project,dueDate,priority,id){
@@ -25,7 +25,7 @@ export default class ToDo {
     }
 
     getDetails(){
-        return [this._isFinished,this._name,this._creationDate,this.getTimeleft(),this._priority];
+        return [this._id,this._priority,this._isFinished,this._name,this.getTimeLeft()];
     }
 
     editDetails(toDoTitle,dueDate,priority){
@@ -41,5 +41,24 @@ export default class ToDo {
     getTimeLeft(){
         if(this._dueDate==='not set') return 'not set';
         return formatDistance(parseISO(this._dueDate),new Date());
+    }
+
+    getTimeLeftInDays(){
+        if(this._dueDate==='not set') return 'not set';
+        formatDistanceToNowStrict(parseISO(this._dueDate),new Date(),{unit:'day'})
+    }
+    isWithinInteral(period){
+        switch(period){
+            case 'Today':
+                // console.log(isToday(parseISO(this._dueDate)));
+                // return isToday(parseISO(this._dueDate));
+                return differenceInDays(parseISO(this._dueDate),new Date())<=1;
+            case 'This week':
+                // return isThisWeek(parseISO(this._dueDate));
+                return differenceInWeeks(parseISO(this._dueDate),new Date())<=1;
+            case 'This month':
+                return differenceInMonths(parseISO(this._dueDate),new Date())<=1;
+                // return isThisMonth(parseISO(this._dueDate));
+        }
     }
 }

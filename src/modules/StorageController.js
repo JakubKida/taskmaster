@@ -27,6 +27,7 @@ export default class StorageController{
     static listAllProjects(){
         let projects = this.loadFromStorage();
         let result = projects.getAllProjectNames();
+        this.saveToStorage(projects);
         return result;
     }
 
@@ -42,6 +43,13 @@ export default class StorageController{
         this.saveToStorage(projects);
     }
 
+    static getProjectDetails(projectId){
+        let projects = this.loadFromStorage();
+        let foundProject = projects.getProjectInfo(projectId)
+        this.saveToStorage(projects);
+        return foundProject;
+    }
+
     static removeProject(projectId){
         let projects = this.loadFromStorage();
         if(projects.getProject(projectId)._name==='General') return;
@@ -52,6 +60,7 @@ export default class StorageController{
     static listAllTodosFromProject(projectId){
         let projects = this.loadFromStorage();
         let projectToList = projects.getProject(projectId);
+        this.saveToStorage(projects);
         return projectToList.listAllTodos();
     }
 
@@ -67,6 +76,13 @@ export default class StorageController{
         let projects = this.loadFromStorage();
         projects.deleteToDoFromProject(projectId,toDoId)
         this.saveToStorage(projects);
+    }
+
+    static listTodosFromPeriod(period){
+        let projects = this.loadFromStorage();
+        let periodTodos = projects.getTodosFromPeriod(period);
+        this.saveToStorage(projects);
+        return periodTodos;
     }
 
 }
