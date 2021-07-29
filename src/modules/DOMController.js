@@ -26,9 +26,9 @@ export default class DOMController{
 
     static loadMainContent(){
         let projectList = StorageController.listAllProjects();
-        console.table(projectList);
-        StorageController.addNewProject('Test1');
-        StorageController.addNewProject('Test2')
+        // console.table(projectList);
+        // StorageController.addNewProject('Test1');
+        // StorageController.addNewProject('Test2')
 
         $("div#content")
         .append(`<main id="main-wrapper">
@@ -37,157 +37,286 @@ export default class DOMController{
                 <h2 id="projects-header">
                     Main & Upcoming Tasks
                 </h2>
-                <div id="general-tasks" class="project-tab" data-UUID=${projectList[0][0]}>
+                <div id="general-tasks" class="project-tab project-tab-switchable" data-UUID=${projectList[0][0]}>
                     <span class="icon-hidden"><i class="project-icon fas fa-exclamation fa-sm"></i></span>
                     ${projectList[0][1]}
                 </div>
-                <div id="today-tasks" class="project-tab">
+                <div id="today-tasks" class="project-tab project-tab-switchable" data-UUID="Today">
                     <span class="icon-shown"><i class="project-icon fas fa-exclamation fa-sm"></i></span>
                     <div class="project-title">Today</div>
                 </div>
-                <div id="week-tasks" class="project-tab">
-                    <span class="icon-shown"><i class="project-icon fas fa-calendar-day fa-sm"></i></span>
-                    This Week
+                <div id="week-tasks" class="project-tab project-tab-switchable" data-UUID="This week">
+                    <span class="icon-shown"><i class="project-icon fas fa-calendar-day fa-sm" ></i></span>
+                    This week
                 </div>
-                <div id="month-tasks" class="project-tab">
+                <div id="month-tasks" class="project-tab project-tab-switchable" data-UUID="This month">
                     <span class="icon-shown"><i class="project-icon fas fa-calendar-alt fa-sm"></i></span>
-                    This Month
+                    This month
                 </div>
             </div>
+            <h2 id="projects-header">Projects</h2>
+            
             <div id="project-tabs">
-                <h2 id="projects-header"> Projects</h2>
-                <div id="add-project-button" class="project-tab">Add new project</div>
             </div>
         </div>
         <div class="project-area">
-
         </div>
         </main>`);  
-        // // this.loadCustomProjects();
-        StorageController.addTodo(projectList[0][0],'Today',new Date(2021,6,28,20),1);
-        StorageController.addTodo(projectList[0][0],'Tommorow',new Date(2021,6,30),1);
-        StorageController.addTodo(projectList[0][0],'Day After Tommorow',new Date(2021,6,31),1);
-        StorageController.addTodo(projectList[0][0],'New Month',new Date(2021,7,0),1);
-        StorageController.addTodo(projectList[0][0],'Habib',new Date(2021,7,16),1);
-        StorageController.addTodo(projectList[0][0],'Outto',new Date(2021,8,30),1);
-        // StorageController.addTodo(projectList[0][0],'JEl',new Date(),1);
-        // StorageController.addTodo(projectList[1][0],'This is anotherrrr',new Date(),1);
-        // StorageController.addTodo(projectList[1][0],'Yoo co cool',new Date(),1);
-    
-        this.loadProject(projectList[0][0]);
-        this.loadCustomProjects();
-        $('.project-tab').on('click',this.switchProject.bind(this));
+        this.loadProjectX(projectList[0][0]);
+        this.loadCustomProjectsTabs();
     }
 
-    static loadCustomProjects(){
+    static loadProjectX(projectId){
+        let projectDetails = [];
+        let todos = [];
+        if(projectId==='Today'||projectId==='This week'||projectId==='This month'){
+            projectDetails.push(projectId.replace(/\s/g, ""),projectId);
+            todos = StorageController.listTodosFromPeriod(projectId);  
+        } else {
+            projectDetails = StorageController.getProjectDetails(projectId);
+            todos = StorageController.listAllTodosFromProject(projectId);
+        }
+
+        $('.project-area').empty();
+        $('.project-area')
+            .append(`
+            <div class="project-card" data-UUID="${projectDetails[0]}">
+                <div class="project-name">${projectDetails[1]}</div>
+                <div class='todos-area'>
+                        <div class="add-clear-todos">
+                            <div class='todo add-todo' data-UUID=${projectDetails[0]}>
+                                <p class='add-todo-text'>Add new To-Do</p>
+                            </div>
+                            <div class='todo clear-todo' data-UUID=${projectDetails[0]}>
+                                <p class='add-todo-text'>Clear completed To-Dos</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            `)
+        if(projectId==='Today'||projectId==='This week'||projectId==='This month') $('.add-todo').remove()
+        this.loadTodosX(todos);
+    }
+
+    static loadTodosX(todos){
+        todos.forEach(todoDetails=>{
+            $('.todos-area')
+            .append(`
+            <div class='todo' data-UUID=${todoDetails[0]} data-project-uuid="${todoDetails[5]}">
+                <div class="priority-indicator" data-priority=${todoDetails[1]}></div>
+                <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
+                <p class='todo-title'>${todoDetails[3]}</p>
+                <p class='todo-time-left'>${todoDetails[4]==='not set'?'':todoDetails[4]}</p>
+                <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[5]}></i>
+            </div>
+            `)
+        })
+        $('.add-todo').on('click',this.openAddTodoForm.bind(this));
+        $('.delete-todo-icon').on('click',this.deleteTodo.bind(this));
+    }
+
+    static loadCustomProjectsTabs(){
         let projectList = StorageController.listAllProjects();
+
+        $('#project-tabs').empty();
+        $('#project-tabs').append(`<div id="add-project-button" class="project-tab">Add new project</div>`)
+
         projectList.forEach((project)=>{
             if(project[1]==='General') return;
             $('#project-tabs')
                 .append(`
-                <div class="project-tab" data-uuid=${project[0]}>
+                <div class="project-tab project-tab-switchable" data-uuid=${project[0]}>
                     <p class="project-title">${project[1]}</p>
-                    <i class="delete-project-icon fas fa-times"></i>
+                    <i class="delete-project-icon fas fa-times" data-uuid=${project[0]}></i>
                 </div>
                 `)
         })
+        // $('.project-tab-switchable').on('click',this.switchProject.bind(this));
+        $('.project-tab-switchable').on('click',(e)=>{this.loadProjectX(e.currentTarget.dataset.uuid)});
+        $('i.delete-project-icon').on('click',this.deleteProject.bind(this));
+        $('#add-project-button').on('click',this.openAddProjectForm.bind(this));
     }
 
-    static loadProject(projectID){
+    // static loadProjectX(projectID){
 
-        let projectDetails = StorageController.getProjectDetails(projectID);
+    //     let projectDetails = StorageController.getProjectDetails(projectID);
         
-        $('.project-area').empty();
-        $('.project-area')
-            .append(`
-            <div class="project-card" data-UUID=${projectDetails[0]}>
-                <div class="project-name">${projectDetails[1]}</div>
-                <div class='todos-area'>
-                        <div class="add-clear-todos">
-                            <div class='todo add-todo'>
-                                <p class='add-todo-text' data-UUID='bjak-osic-ajvc-isau'>Add new To-Do</p>
-                            </div>
-                            <div class='todo clear-todo'>
-                                <p class='add-todo-text'>Clear completed To-Dos</p>
-                            </div>
-                        </div>
+    //     $('.project-area').empty();
+    //     $('.project-area')
+    //         .append(`
+    //         <div class="project-card" data-UUID=${projectDetails[0]}>
+    //             <div class="project-name">${projectDetails[1]}</div>
+    //             <div class='todos-area'>
+    //                     <div class="add-clear-todos">
+    //                         <div class='todo add-todo' data-UUID=${projectDetails[0]}>
+    //                             <p class='add-todo-text'>Add new To-Do</p>
+    //                         </div>
+    //                         <div class='todo clear-todo'>
+    //                             <p class='add-todo-text'>Clear completed To-Dos</p>
+    //                         </div>
+    //                     </div>
+    //             </div>
+    //         </div>
+    //         `)
+
+    //     this.loadTodosFromProject(projectID);
+
+    //     $('.add-todo').on('click',this.openAddTodoForm.bind(this));
+    //     $('.delete-todo-icon').on('click',this.deleteTodo.bind(this));
+    // }
+
+    // static loadTodosFromPeriod(period){
+    //     let todos = StorageController.listTodosFromPeriod(period);
+    //     $('.project-area').empty();
+    //     $('.project-area')
+    //         .append(`
+    //         <div class="project-card">
+    //             <div class="project-name" data-uuid=${period}>${period}</div>
+    //             <div class='todos-area'>
+    //                     <div class="add-clear-todos">
+    //                         <div class='todo add-todo'>
+    //                             <p class='add-todo-text'>Add new To-Do</p>
+    //                         </div>
+    //                         <div class='todo clear-todo'>
+    //                             <p class='add-todo-text'>Clear completed To-Dos</p>
+    //                         </div>
+    //                     </div>
+    //             </div>
+    //         </div>
+    //         `)
+        
+    //     todos.forEach(todoDetails=>{
+    //         $('.todos-area')
+    //         .append(`
+    //         <div class='todo' data-UUID=${todoDetails[0]} data-project-uuid="${todoDetails[5]}">
+    //             <div class="priority-indicator" data-priority=${todoDetails[1]}></div>
+    //             <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
+    //             <p class='todo-title'>${todoDetails[3]}</p>
+    //             <p class='todo-time-left'>${todoDetails[4]}</p>
+    //             <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[5]}></i>
+    //         </div>
+    //         `)
+    //     })
+    //     $('.delete-todo-icon').on('click',this.deleteTodo.bind(this));
+    // }
+
+    // static loadTodosFromProject(projectID){
+    //     let projectList = StorageController.listAllProjects();
+    //     // console.table(projectList);
+    //     let todosList = StorageController.listAllTodosFromProject(projectID);
+    //     // console.table(todosList);
+    //     todosList.forEach(todoDetails=>{
+    //         $('.todos-area')
+    //         .append(`
+    //         <div class='todo' data-UUID=${todoDetails[0]}>
+    //             <div class="priority-indicator" data-priority=${todoDetails[1]}></div>
+    //             <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
+    //             <p class='todo-title'>${todoDetails[3]}</p>
+    //             <p class='todo-time-left'>${todoDetails[4]==='not set'?'':todoDetails[4]}</p>
+    //             <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[5]}></i>
+    //         </div>
+    //         `)
+    //     })
+    // }
+
+    // static switchProject(e){
+    //     switch(e.target.id){
+    //         case 'today-tasks':
+    //             this.loadTodosFromPeriod('Today');
+    //             break;
+    //         case 'week-tasks':
+    //             this.loadTodosFromPeriod('This week');
+    //             break;
+    //         case 'month-tasks':
+    //             this.loadTodosFromPeriod('This month');
+    //             break;
+    //         default:
+    //             this.loadProjectX(e.currentTarget.dataset.uuid);
+    //             break;
+    //     }
+    // }
+
+    static openAddProjectForm(){
+        $('#add-project-button')
+            .replaceWith(`                
+                <div class='project-tab add-project-input'>
+                <input class="project-text-input" type="text" placeholder='Project Name'>
+                <i class="confirm-project-icon fas fa-check"></i>
+                <i class="cancel-project-icon fas fa-times"></i>
                 </div>
-            </div>
             `)
-        this.loadTodos(projectID);
+        $('.confirm-project-icon ').on('click',this.confirmAddProjectForm.bind(this));
+        $('.cancel-project-icon').on('click',this.cancelAddProjectForm.bind(this));
     }
 
-    static loadTodosFromPeriod(period){
-        let todos = StorageController.listTodosFromPeriod(period);
-        console.table(todos);
-        $('.project-area').empty();
-        $('.project-area')
-            .append(`
-            <div class="project-card">
-                <div class="project-name">${period}</div>
-                <div class='todos-area'>
-                        <div class="add-clear-todos">
-                            <div class='todo add-todo'>
-                                <p class='add-todo-text' data-UUID='bjak-osic-ajvc-isau'>Add new To-Do</p>
-                            </div>
-                            <div class='todo clear-todo'>
-                                <p class='add-todo-text'>Clear completed To-Dos</p>
-                            </div>
-                        </div>
-                </div>
-            </div>
-            `)
-        
-        todos.forEach(todoDetails=>{
-            $('.todos-area')
-            .append(`
-            <div class='todo' data-UUID=${todoDetails[0]}>
-                <div class="priority-indicator" data-priority=${todoDetails[1]}></div>
-                <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
-                <p class='todo-title'>${todoDetails[3]}</p>
-                <p class='todo-time-left'>${todoDetails[4]}</p>
-                <i class="delete-todo-icon fas fa-times"></i>
-            </div>
-            `)
-        })
-    }
-
-    static loadTodos(projectID){
-        let projectList = StorageController.listAllProjects();
-        console.table(projectList);
-        let todosList = StorageController.listAllTodosFromProject(projectID);
-        console.table(todosList);
-        todosList.forEach(todoDetails=>{
-            $('.todos-area')
-            .append(`
-            <div class='todo' data-UUID=${todoDetails[0]}>
-                <div class="priority-indicator" data-priority=${todoDetails[1]}></div>
-                <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
-                <p class='todo-title'>${todoDetails[3]}</p>
-                <p class='todo-time-left'>${todoDetails[4]}</p>
-                <i class="delete-todo-icon fas fa-times"></i>
-            </div>
-            `)
-        })
-    }
-
-    static switchProject(e){
-        
-
-        switch(e.target.id){
-            case 'today-tasks':
-                this.loadTodosFromPeriod('Today');
-                break;
-            case 'week-tasks':
-                this.loadTodosFromPeriod('This week');
-                break;
-            case 'month-tasks':
-                this.loadTodosFromPeriod('This month');
-                break;
-            default:
-                this.loadProject(e.currentTarget.dataset.uuid);
-                break;
+    static confirmAddProjectForm(e){
+        let projectName = $('.project-text-input').val();
+        if(projectName==='') {
+            alert(`Project name can't be empty!`);
+            return;
         }
-        console.log(e.target.dataset.uuid);
+        StorageController.addNewProject(projectName);
+        this.loadCustomProjectsTabs();
+
     }
+
+    static cancelAddProjectForm(){
+        this.loadCustomProjectsTabs();
+    }
+
+    static deleteProject(e){
+        if(confirm('Do you want to delete this project?')){
+            let uuidToDelete=e.currentTarget.dataset.uuid;
+            StorageController.removeProject(uuidToDelete)
+            $(`.project-tab[data-uuid="${uuidToDelete}"]`).remove();
+            this.loadProjectX($(`#general-tasks`).data('uuid'));
+        }
+    }
+
+    static openAddTodoForm(e){
+        $('.add-clear-todos').replaceWith(`
+        <div class='todo create-todo-form'>
+            <input class="todo-name-input" type="text" placeholder="What needs to be done?">
+                <label for="todo-priority-picker">Priority:</label>
+                <select id="todo-priority-picker" class="todo-priority-picker" value='0'>
+                    <option value='0' selected>Not set</option>
+                    <option value='1'>Relevant</option>
+                    <option value='2'>Important</option>
+                    <option value='3'>Critical</option>
+                </select>
+                <label for="due-date-picker">Due date:</label>
+                <input id='due-date-picker' class='due-date-picker' class="due-date-picker" type="date" placeholder="pick due date"> 
+                <div class="accept-new-todo">Add</div>
+            <div class="cancel-new-todo">Cancel</div>
+        </div>
+        `)
+        $('.accept-new-todo').on('click',this.confirmNewTodo.bind(this));
+        $('.cancel-new-todo').on('click',this.cancelNewTodo.bind(this));
+    }
+
+    static confirmNewTodo(){
+        let projectId = $(`.project-card`).data('uuid');
+        let name = $('.todo-name-input').val();
+        if(name==='') {
+            alert(`The name of the todo can't be empty!`);
+            return;
+        }
+        let priority = $('.todo-priority-picker').val();
+        let duedate = $('.due-date-picker').val() || 'not set';
+        StorageController.addTodo(projectId,name,duedate,priority);
+        this.loadProjectX(projectId);
+    }
+
+    static cancelNewTodo(){
+        this.loadProjectX($(`.project-card`).data('uuid'));
+    }
+    
+    static deleteTodo(e){
+        let projectId = e.currentTarget.dataset.projectUuid;
+        let todoId = e.currentTarget.dataset.uuid;
+        StorageController.deleteTodo(projectId,todoId);
+        $(".todo[data-uuid=" + todoId +"]").remove();
+    }
+
+    //TO DO - editing/toggling todos, clearing completed todos, displaying priority, css editing for responsiveness (hamburger menu)  
 }

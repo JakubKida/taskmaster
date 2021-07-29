@@ -93,7 +93,7 @@ export default class ProjectsList{
         let periodTodos = [];
         this._projects.forEach(project=>{
             project._toDos.forEach(todo=>{
-                if(todo.isWithinInteral(period)) periodTodos.push(todo.getDetails());
+                if(todo.isWithinInteral(period)) periodTodos.push([...todo.getDetails(),project._id]);
             })
         })
         return periodTodos;

@@ -44,7 +44,7 @@ export default class Project {
     listAllTodos(){
         let todosDetailList = [];
         this._toDos.forEach(todo=>{
-            todosDetailList.push([todo._id,todo._priority,todo._isFinished,todo._name,todo.getTimeLeft()])
+            todosDetailList.push([todo._id,todo._priority,todo._isFinished,todo._name,todo.getTimeLeft(),this._id])
         })
         return todosDetailList;
     }
