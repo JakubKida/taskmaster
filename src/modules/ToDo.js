@@ -2,10 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import {isToday,isThisWeek,isThisMonth,formatDistance,parseISO,differenceInDays,differenceInWeeks,differenceInMonths} from 'date-fns'
 
 export default class ToDo {
-    constructor(name,project,dueDate,priority,id){
+    constructor(isFinished,name,project,dueDate,priority,id){
         this._name = name;
         this._project = project;
-        this._isFinished = false;
+        this._isFinished = isFinished;
         this._creationDate = new Date();
         this._dueDate = dueDate;
         this._priority = priority;
@@ -25,10 +25,11 @@ export default class ToDo {
     }
 
     getDetails(){
-        return [this._id,this._priority,this._isFinished,this._name,this.getTimeLeft()];
+        return [this._id,this._priority,this._isFinished,this._name,this.getTimeLeft(),this._dueDate];
     }
 
-    editDetails(toDoTitle,dueDate,priority){
+    editDetails(isFinished,toDoTitle,dueDate,priority){
+        this._isFinished=isFinished;
         this._name=toDoTitle;
         this._dueDate=dueDate;
         this._priority=priority;

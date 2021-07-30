@@ -20,8 +20,8 @@ export default class StorageController{
         return projectList;
     }
 
-    static saveToStorage(projectsList){
-        localStorage.setItem('projectList',JSON.stringify(projectsList));
+    static saveToStorage(projectList){
+        localStorage.setItem('projectList',JSON.stringify(projectList));
     }
 
     static listAllProjects(){
@@ -64,11 +64,15 @@ export default class StorageController{
         return projectToList.listAllTodos();
     }
 
-    
-
     static addTodo(projectId,toDoTitle,dueDate,priority){
         let projects = this.loadFromStorage();
         projects.addToDoToProject(projectId,toDoTitle,dueDate,priority)
+        this.saveToStorage(projects);
+    }
+
+    static editToDo(projectId,todoId,isFinished,todoTitle,dueDate,priority){
+        let projects = this.loadFromStorage();
+        projects.editToDoInProject(projectId,todoId,isFinished,todoTitle,dueDate,priority);
         this.saveToStorage(projects);
     }
 

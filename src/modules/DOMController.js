@@ -102,15 +102,19 @@ export default class DOMController{
         todos.forEach(todoDetails=>{
             $('.todos-area')
             .append(`
-            <div class='todo' data-UUID=${todoDetails[0]} data-project-uuid="${todoDetails[5]}">
-                <div class="priority-indicator" data-priority=${todoDetails[1]}></div>
-                <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
-                <p class='todo-title'>${todoDetails[3]}</p>
+            <div class='todo' data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[6]}>
+                <div class="todo-priority-indicator" data-priority=${todoDetails[1]}></div>
+                <input data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[6]} class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
+                <p class='todo-title' data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[6]}>${todoDetails[3]}</p>
                 <p class='todo-time-left'>${todoDetails[4]==='not set'?'':todoDetails[4]}</p>
-                <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[5]}></i>
+                <input class='todo-edit-date' type="date" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[6]} value=${todoDetails[5]}>
+                <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[6]}></i>
             </div>
             `)
         })
+        $('.todo-title').on('click',this.openChangeNameTextInput.bind(this));
+        $('.todo-edit-date').on('change',this.editTodo.bind(this));
+        $('.todo-checkbox').on('change',this.editTodo.bind(this));
         $('.add-todo').on('click',this.openAddTodoForm.bind(this));
         $('.delete-todo-icon').on('click',this.deleteTodo.bind(this));
     }
@@ -193,7 +197,7 @@ export default class DOMController{
     //             <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
     //             <p class='todo-title'>${todoDetails[3]}</p>
     //             <p class='todo-time-left'>${todoDetails[4]}</p>
-    //             <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[5]}></i>
+    //             <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[6]}></i>
     //         </div>
     //         `)
     //     })
@@ -213,7 +217,7 @@ export default class DOMController{
     //             <input class="todo-checkbox" type="checkbox" ${todoDetails[2]?'checked':'unchecked'}>
     //             <p class='todo-title'>${todoDetails[3]}</p>
     //             <p class='todo-time-left'>${todoDetails[4]==='not set'?'':todoDetails[4]}</p>
-    //             <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[5]}></i>
+    //             <i class="delete-todo-icon fas fa-times" data-UUID=${todoDetails[0]} data-project-uuid=${todoDetails[6]}></i>
     //         </div>
     //         `)
     //     })
@@ -318,5 +322,39 @@ export default class DOMController{
         $(".todo[data-uuid=" + todoId +"]").remove();
     }
 
-    //TO DO - editing/toggling todos, clearing completed todos, displaying priority, css editing for responsiveness (hamburger menu)  
+    static editTodo(e){
+        let todoId=e.currentTarget.dataset.uuid;
+        let projectId=e.currentTarget.dataset.projectUuid;
+        let todoToEdit = $(".todo[data-uuid=" + todoId +"]");
+
+        let title = todoToEdit.find('.todo-title').val() || todoToEdit.find('.todo-title').text();
+        let isFinished = todoToEdit.find('.todo-checkbox').prop('checked');
+        let dueDate = todoToEdit.find('.todo-edit-date').val();
+        let priority = todoToEdit.find('.todo-priority-indicator').data('priority');
+
+        // let title = $(".todo-title[data-uuid=" + todoId +"]").text();
+        // let isFinished = $(".todo-checkbox[data-uuid=" + todoId +"]").prop('checked');
+        // let sampleDate = new Date(2022,1,1);
+        // let samplePriority = 0;
+
+        StorageController.editToDo(projectId,todoId,isFinished,title,dueDate?dueDate:'not set',priority);
+        // console.log(e.currentTarget.dataset.uuid,e.currentTarget.dataset.projectUuid);
+        // this.loadProjectX(projectId)
+        this.loadProjectX($(`.project-card`).data('uuid'));
+        // console.log(StorageController.listAllTodosFromProject(projectId))
+    }
+
+    static openChangeNameTextInput(e){
+        let todoId=e.currentTarget.dataset.uuid;
+        let projectId=e.currentTarget.dataset.projectUuid;
+        let todoToEdit = $(".todo[data-uuid=" + todoId +"]");
+        let title = todoToEdit.find('.todo-title').text()
+        $(".todo-title[data-uuid=" + todoId +"]").replaceWith(`<input class="edit-name-input todo-title" type="text" value="${title}" data-UUID=${todoId} data-project-uuid=${projectId}>`);
+        $('.edit-name-input').focus()
+        $('.edit-name-input').on('focusout',this.editTodo.bind(this));
+    
+        // $(`.edit-name-input`).replaceWith($(".todo-title[data-uuid=" + todoId +"]"))
+    }
+
+    //TO DO - clearing completed todos, displaying priority, css editing for responsiveness (hamburger menu)  
 }

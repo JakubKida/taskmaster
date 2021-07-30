@@ -43,12 +43,12 @@ export default class ProjectsList{
 
     addToDoToProject(projectId,toDoTitle,dueDate,priority){
         let projectToAddTo = this.getProject(projectId);
-        if(projectToAddTo!==false) projectToAddTo.addToDo(toDoTitle,dueDate,priority);
+        if(projectToAddTo!==false) projectToAddTo.addToDo(false,toDoTitle,dueDate,priority);
     }
 
-    editToDoInProject(projectId,toDoId,toDoTitle,dueDate,priority){
+    editToDoInProject(projectId,toDoId,isFinished,toDoTitle,dueDate,priority){
         let projectToEditIn = this.getProject(projectId);
-        if(projectToEditIn!==false) projectToEditIn.editToDo(toDoId,toDoTitle,dueDate,priority);
+        if(projectToEditIn!==false) projectToEditIn.editToDo(toDoId,isFinished,toDoTitle,dueDate,priority);
     }  
 
     toggleToDoInProject(projectId,toDoId){
