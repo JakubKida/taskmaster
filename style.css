@@ -232,14 +232,33 @@ p.todo-title{
     z-index: 100;
     padding: 2vh;
 }
+
+.todo-edit-date{
+    /* visibility:hidden; */
+    display:none;
+    background-color: transparent;
+}
+
 .delete-project-icon{
     align-items: center;
 }
 
-.todo:hover .delete-todo-icon, .project-tab:hover .delete-project-icon{
+.todo:hover .delete-todo-icon,.todo:hover .todo-edit-date,.project-tab:hover .delete-project-icon{
     /* background-color: red; */
     visibility:visible;
     transition: 0.25s ease-in;
+}
+
+.todo:hover .todo-time-left{
+    display:none;
+}
+
+.todo:hover .todo-edit-date{
+    display:inline;
+    color: white;
+    font-size: 1.5vh;
+    border:unset;
+    /* margin-right: 20px; */
 }
 
 .delete-todo-icon:hover, .delete-project-icon:hover{
@@ -258,7 +277,7 @@ input[type='checkbox']:checked ~ .todo-title{
  text-decoration: line-through;   
 }
 
-.priority-indicator{
+.todo-priority-indicator{
     width: 7px;
     height: 100%;
     background-color: rgba(255, 0, 0, 0.479);
