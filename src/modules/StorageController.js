@@ -1,21 +1,21 @@
-import Project from "./Project";
 import ProjectsList from "./ProjectsList";
 
 export default class StorageController{
 
+
     static loadFromStorage(){
         let projectList = new ProjectsList();
-
-        if(localStorage.getItem('projectList')===null) {
+        
+        if(localStorage.getItem('projectList')!==null) {
+            //if there are projects in storage, create list of projects from localStorage
+            let object = JSON.parse(localStorage.getItem('projectList'));
+            object._projects.forEach(projectToAdd => {
+                projectList.addProject(projectToAdd._name,projectToAdd._id,projectToAdd._toDos);
+            });
+        } else {
+            //if there is no projects in localStorage, add a default 'General' one 
             projectList.addProject('General');
-            return projectList;
         }
-
-        let object = JSON.parse(localStorage.getItem('projectList'));
-        // if(object===null) return;
-        object._projects.forEach(projectToAdd => {
-            projectList.addProject(projectToAdd._name,projectToAdd._id,projectToAdd._toDos);
-        });
 
         return projectList;
     }
@@ -24,13 +24,7 @@ export default class StorageController{
         localStorage.setItem('projectList',JSON.stringify(projectList));
     }
 
-    static listAllProjects(){
-        let projects = this.loadFromStorage();
-        let result = projects.getAllProjectNames();
-        this.saveToStorage(projects);
-        return result;
-    }
-
+    //functions for manipulating projects in storage
     static addNewProject(projectName){
         let projects = this.loadFromStorage();
         projects.addProject(projectName);
@@ -50,6 +44,13 @@ export default class StorageController{
         return foundProject;
     }
 
+    static listAllProjects(){
+        let projects = this.loadFromStorage();
+        let result = projects.getAllProjectNames();
+        this.saveToStorage(projects);
+        return result;
+    }
+
     static removeProject(projectId){
         let projects = this.loadFromStorage();
         if(projects.getProject(projectId)._name==='General') return;
@@ -57,13 +58,7 @@ export default class StorageController{
         this.saveToStorage(projects);
     }
 
-    static listAllTodosFromProject(projectId){
-        let projects = this.loadFromStorage();
-        let projectToList = projects.getProject(projectId);
-        this.saveToStorage(projects);
-        return projectToList.listAllTodos();
-    }
-
+    //functions for manipulating todos in storage
     static addTodo(projectId,toDoTitle,dueDate,priority){
         let projects = this.loadFromStorage();
         projects.addToDoToProject(projectId,toDoTitle,dueDate,priority)
@@ -76,10 +71,11 @@ export default class StorageController{
         this.saveToStorage(projects);
     }
 
-    static deleteTodo(projectId,toDoId){
+    static listAllTodosFromProject(projectId){
         let projects = this.loadFromStorage();
-        projects.deleteToDoFromProject(projectId,toDoId)
+        let projectToList = projects.getProject(projectId);
         this.saveToStorage(projects);
+        return projectToList.listAllTodos();
     }
 
     static listTodosFromPeriod(period){
@@ -87,6 +83,12 @@ export default class StorageController{
         let periodTodos = projects.getTodosFromPeriod(period);
         this.saveToStorage(projects);
         return periodTodos;
+    }
+
+    static deleteTodo(projectId,toDoId){
+        let projects = this.loadFromStorage();
+        projects.deleteToDoFromProject(projectId,toDoId)
+        this.saveToStorage(projects);
     }
 
 }

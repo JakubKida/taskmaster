@@ -4,11 +4,9 @@ export default class ProjectsList{
 
     constructor(){
         this._projects = [];
-        // this._projects.push(new Project('General'));
-        // this._projects.push(new Project('Today'));
-        // this._projects.push(new Project('This Week'));
     }
 
+    //methods for manipulating projects
     addProject(projectName,projectId,todosList){
         if(projectName!==undefined){
         this._projects.push(new Project(projectName,projectId,todosList));
@@ -41,29 +39,6 @@ export default class ProjectsList{
         if (projectToEdit!==false) projectToEdit.name = newProjectName;
     }
 
-    addToDoToProject(projectId,toDoTitle,dueDate,priority){
-        let projectToAddTo = this.getProject(projectId);
-        if(projectToAddTo!==false) projectToAddTo.addToDo(false,toDoTitle,dueDate,priority);
-    }
-
-    editToDoInProject(projectId,toDoId,isFinished,toDoTitle,dueDate,priority){
-        let projectToEditIn = this.getProject(projectId);
-        if(projectToEditIn!==false) projectToEditIn.editToDo(toDoId,isFinished,toDoTitle,dueDate,priority);
-    }  
-
-    toggleToDoInProject(projectId,toDoId){
-        let projectToToggleIn = this.getProject(projectId);
-        if(projectToToggleIn!==false) projectToToggleIn.getTodo(toDoId).toggle();
-    }
-
-    // getToDoFromProject(projectName,toDoIndex){
-    //     return this.getProject(projectName).getTodo(toDoIndex);
-    // }
-
-    // displayProject(projectName){
-    //     let foundProject = this.getProject(projectName);
-    //     foundProject.displayTodos();
-    // }
     getAllProjectNames(){
         let projectNames = [];
         this._projects.forEach(project=>{
@@ -77,17 +52,17 @@ export default class ProjectsList{
         if(projectIndexToDelete!=-1) this._projects.splice(projectIndexToDelete,1);
     }
 
-    deleteToDoFromProject(projectId,toDoId){
-        this.getProject(projectId).deleteToDo(toDoId);
+
+    //methods for manipulating todos
+    addToDoToProject(projectId,toDoTitle,dueDate,priority){
+        let projectToAddTo = this.getProject(projectId);
+        if(projectToAddTo!==false) projectToAddTo.addToDo(false,toDoTitle,dueDate,priority);
     }
 
-    getAllProjects(){
-        return this._projects;
-    }
-
-    displayAllProjects(){
-        this._projects.forEach(project=>project.displayTodos());
-    }
+    editToDoInProject(projectId,toDoId,isFinished,toDoTitle,dueDate,priority){
+        let projectToEditIn = this.getProject(projectId);
+        if(projectToEditIn!==false) projectToEditIn.editToDo(toDoId,isFinished,toDoTitle,dueDate,priority);
+    }  
 
     getTodosFromPeriod(period){
         let periodTodos = [];
@@ -98,9 +73,8 @@ export default class ProjectsList{
         })
         return periodTodos;
     }
-    // saveToStorage(){}
-    // getTodayTodos()
-    // getThisWeekTodos()
-    // getThisMonthTodos()
 
+    deleteToDoFromProject(projectId,toDoId){
+        this.getProject(projectId).deleteToDo(toDoId);
+    }
 }
