@@ -1,9 +1,9 @@
-html,body{
-    padding: 0px;
-    margin: 0px;
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
     font-family: 'Roboto', sans-serif;
-    width:100vw;
-    height:100vh;
 }
 
 #content{
@@ -13,72 +13,68 @@ html,body{
 
 /* header - title, icon and hamburger menu  */
 #header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;  
-    background: linear-gradient(to right,rgb(0, 40, 66),rgba(0, 65, 109, 0.904) 60%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     height: 10%;
+    background: linear-gradient(to right,rgb(0, 40, 66),rgba(0, 65, 109, 0.904) 60%);
 }
 
 #title{
-    color: white;
-    font-size: 7vh;
     padding: 3vh;
     padding-left: 20px;
+    color: white;
+    font-size: 7vh;
     font-family: 'Oldenburg', cursive;
 }
 
 i.hamburger-menu{
-    display:none;
-    font-size: 8vw;
-    color:white;
+    display: none;
     margin: 5%;
+    color: white;
+    font-size: 8vw;
 }
 
 #main-wrapper{
-    display:flex;
+    display: flex;
     height: 90%;
 }
 
 /* left panel for switching between projects */
 .projects-picker{
-    background-color: rgb(0, 40, 66);
-    width: 25vw;
-    padding: 1vw;
-    min-width: 250px;
-
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    padding: 1vw;
+    min-width: 250px;
+    width: 25vw;
+    background-color: rgb(0, 40, 66);
 }
 
 #projects-header{
-    color:white;
-    font-family: 'Oldenburg', cursive;
+    color: white;
     text-align: center;
+    font-family: 'Oldenburg', cursive;
 }
 
 .project-tab{
     display: flex;
-
+    margin: 0.9vh 20px;
+    padding: 0.8vh;
+    border: 1px solid transparent;
+    border-radius: 100px;
+    background: linear-gradient(to bottom,rgb(0, 51, 85) 50%,rgb(0, 58, 97) 50%);
+    background-position: right bottom;
+    background-size: 100% 250%;
     color: white;
     text-align: center;
     font-size: 1.5rem;
-
-    margin: 0.9vh 20px;
-    border: 1px solid transparent;
-    border-radius: 100px;
-    padding: 0.8vh;
-
-    background: linear-gradient(to bottom,rgb(0, 51, 85) 50%,rgb(0, 58, 97) 50%);
-    background-size: 100% 250%;
-    background-position:right bottom;
 }
 
 .project-tab:hover{
-    background-position:left top;
-    transition:all 0.25s ease;
+    background-position: left top;
+    transition: all 0.25s ease;
 }
 
 .project-tab:active{
@@ -94,8 +90,8 @@ i.hamburger-menu{
     text-align: left;
 }
 .project-tab .delete-project-icon{
-    margin-right: 1vh;
     align-self: center;
+    margin-right: 1vh;
 }
 
 .project-icon{
@@ -105,39 +101,39 @@ i.hamburger-menu{
 }
 
 #add-project-button{
+    justify-content: center;
     background: none;
     background-color: tomato;
-    justify-content: center;
 }
 
 .project-text-input{
-    background-color: rgba(255, 255, 255, 0.247);
-    border:unset;
-    font-size:20px;
     width: 75%;
-    color:white;
+    border: unset;
+    background-color: rgba(255, 255, 255, 0.247);
+    color: white;
+    font-size: 20px;
 }
 
 .project-text-input:focus{
-    outline:none;
+    outline: none;
     background-color: rgba(255, 255, 255, 0.115);
     transition: background-color 0.25s ease-in-out;
 }
 
 .confirm-project-icon{
-    color: green;
+    align-self: center;
+    padding: 5px;
     width: 20px;
     height: 20px;
-    padding: 5px;
-    align-self: center;
+    color: green;
 }
 
 .cancel-project-icon{
-    color:rgba(255, 0, 0, 0.603);
+    align-self: center;
+    padding: 5px;
     width: 20px;
     height: 20px;
-    padding: 5px;
-    align-self: center;
+    color: rgba(255, 0, 0, 0.603);
 }
 
 .confirm-project-icon:hover{
@@ -149,8 +145,8 @@ i.hamburger-menu{
 }
 
 #custom-project-tabs{
-    overflow-y:scroll; 
-    overflow-x:hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     flex-grow: 1;
 }
 
@@ -159,62 +155,62 @@ i.hamburger-menu{
 }
 
 .icon-shown{
+    display: inline;
     width: 17%;
-    display:inline;
 }
 
 .icon-hidden{
-    width: 17%;
     visibility: hidden;
+    width: 17%;
 }
 
 .delete-project-icon{
+    z-index: 100;
     align-items: center;
     visibility: hidden;
-    color:rgba(255, 0, 0, 0.603);
-    z-index: 100;
     padding: 2vh;
+    color: rgba(255, 0, 0, 0.603);
 }
 
 .project-tab:hover .delete-project-icon{
-    visibility:visible;
+    visibility: visible;
     transition: 0.25s ease-in;
 }
 
 /* panel for displaying a project*/
 .project-area{
-    background-color: rgba(0, 40, 66, 0.788);
-    width: 100%;
     display: flex;
     justify-content: center;
+    width: 100%;
     height: 100%;
+    background-color: rgba(0, 40, 66, 0.788);
 }
 .project-card{
-    color: white;
-    background-color: rgb(0, 40, 66);
-    border-radius: 10px;
-    margin: 2%;
-    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 2%;
     padding-bottom: 2vh;
+    width: 80%;
+    border-radius: 10px;
+    background-color: rgb(0, 40, 66);
+    color: white;
 }
 
 .project-name{
-    text-align: center;
-    font-family: 'Oldenburg', cursive;
-    font-size: 5vh;
     padding: 1.5vw;
+    text-align: center;
+    font-size: 5vh;
+    font-family: 'Oldenburg', cursive;
 }
 
 .todos-area{
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
+    overflow-y: scroll;
     width: 100%;
-    overflow-y:scroll; 
-    overflow-x:hidden;
 }
 
 /* add/clear todo buttons */
@@ -229,52 +225,52 @@ i.hamburger-menu{
 }
 
 .add-todo{
-    text-align: center;
-    background-color: rgba(3, 95, 0, 0.603);
-    font-weight: 1500;
-    margin-right: 5px;
-    width: 60%;
-    font-size: 2.5vh;
-    margin-bottom: 2vh;
-    transition: all 0.5s ease;
-    display:flex;
+    display: flex;
     align-items: center;
+    margin-right: 5px;
+    margin-bottom: 2vh;
+    width: 60%;
+    background-color: rgba(3, 95, 0, 0.603);
+    text-align: center;
+    font-weight: 1500;
+    font-size: 2.5vh;
+    transition: all 0.5s ease;
 }
 
 .add-todo:hover{
-    transform: scale(1.05);
     background-color: rgba(3, 95, 0, 0.603);
     transition: 0.25s ease-in;
+    transform: scale(1.05);
 }
 
 .clear-todo{
-    text-align: center;
-    background-color: rgba(95, 0, 0, 0.603);
-    margin-left: 5px;
-    flex-grow: 1;
-    width: 60%;
-    font-size: 2.5vh;
-    margin-bottom: 2vh;
-    transition: all 0.5s ease;
-    display:flex;
+    display: flex;
     align-items: center;
+    flex-grow: 1;
+    margin-bottom: 2vh;
+    margin-left: 5px;
+    width: 60%;
+    background-color: rgba(95, 0, 0, 0.603);
+    text-align: center;
+    font-size: 2.5vh;
+    transition: all 0.5s ease;
 }
 
 .clear-todo:hover{
-    transform: scale(1.05);
     background-color: rgba(95, 0, 0, 0.603);
     transition: 0.25s ease-in;
+    transform: scale(1.05);
 }
 
 /* todo displaying details */
 .todo{
+    display: flex;
+    align-items: center;
+    margin-bottom: 2vh;
     width: 60%;
     background-color: rgba(255, 255, 255, 0.144);
     font-size: 2.5vh;
-    margin-bottom: 2vh;
     transition: all 0.5s ease;
-    display:flex;
-    align-items: center;
 }
 
 .todo:hover{
@@ -282,92 +278,95 @@ i.hamburger-menu{
 }
 
 .todo-priority-indicator{
+    align-self: stretch;
     width: 10px;
     opacity: 0.6;
-    align-self: stretch;
+
     justify-self: stretch;
 }
-.todo-priority-indicator[data-priority="0"]{
+.todo-priority-indicator[data-priority='0']{
     background-color: transparent;
 }
-.todo-priority-indicator[data-priority="1"]{
+.todo-priority-indicator[data-priority='1']{
     background-color: green;
 }
-.todo-priority-indicator[data-priority="2"]{
+.todo-priority-indicator[data-priority='2']{
     background-color: yellow;
 }
-.todo-priority-indicator[data-priority="3"]{
+.todo-priority-indicator[data-priority='3']{
     background-color: red;
 }
 
-.todo input[type='checkbox'] {
-    -webkit-appearance:none;
-    width:20px;
-    height:20px;
+.todo input[type='checkbox']{
+    margin: 2vh;
     padding: 10px;
-    background:transparent;
-    border-radius:100%;
-    border:2px solid rgba(255, 255, 255, 0.185);
-    margin:2vh;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.185);
+    border-radius: 100%;
+    background: transparent;
+
+    -webkit-appearance: none;
 }
-.todo input[type='checkbox']:checked {
-    background-color: #abd;
+.todo input[type='checkbox']:checked{
+    background-color: #AABBDD;
 }
 .todo input[type='checkbox']:checked ~ .todo-title{
-    text-decoration: line-through;   
+    text-decoration: line-through;
 }
 
 p.todo-title{
     display: inline;
-    margin-right:auto;
     flex-grow: 1;
-    overflow-wrap:break-word;
+    margin-right: auto;
+
+    overflow-wrap: break-word;
 }
 
 .edit-name-input{
-    font-family: 'Roboto', sans-serif;
-    color: white;
-    background-color: transparent;
     display: inline;
-    border:none;
-    font-size: 2.5vh;
-    flex-grow: 1;
     align-self: stretch;
-    height: 7.7vh;
+    flex-grow: 1;
     min-width: 30%;
+    height: 7.7vh;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 2.5vh;
+    font-family: 'Roboto', sans-serif;
 }
 
 .edit-name-input:focus{
-    outline:none;
+    outline: none;
     background-color: rgba(255, 255, 255, 0.115);
     transition: background-color 0.25s ease-in-out;
 }
 
 .todo-edit-date{
-    visibility:hidden;
-    display:none;
+    display: none;
+    visibility: hidden;
+    min-width: 6.5vw;
+    border: unset;
+    background-color: transparent;
     color: white;
     font-size: 1.5vh;
-    border:unset;
-    min-width: 6.5vw;
-    background-color: transparent;
 }
 
 .todo:hover .todo-edit-date{
-    display:inline;
+    display: inline;
 }
 
 .todo-time-left{
-    text-align: right;
     min-width: 6vw;
+    text-align: right;
     font-size: 0.8rem;
 }
 
 .delete-todo-icon{
-    visibility: hidden;
-    color:rgba(255, 0, 0, 0.603);
     z-index: 100;
+    visibility: hidden;
     padding: 2vh;
+    color: rgba(255, 0, 0, 0.603);
 }
 
 .delete-todo-icon:hover{
@@ -379,98 +378,104 @@ p.todo-title{
     visibility: hidden;
 }
 
-.todo:hover .delete-todo-icon,.todo:hover .todo-edit-date{
-    visibility:visible;
+.todo:hover .delete-todo-icon, .todo:hover .todo-edit-date{
+    visibility: visible;
     transition: 0.25s ease-in;
 }
 
 .todo.hovered .delete-todo-icon{
-    visibility:visible;
+    visibility: visible;
 }
 
 .todo:hover .todo-time-left, .todo.hovered .todo-time-left{
-    display:none;
+    display: none;
 }
 
 /* add todo form elements */
 
 .create-todo-form{
     display: grid;
+
     grid-template-columns: repeat(4,1fr);
 }
 
 .create-todo-form .todo-name-input{
+    padding: 2vh;
+    border: unset;
     background-color: rgba(255, 255, 255, 0);
     color: white;
-    border: unset;
     font-size: 2.5vh;
-    padding: 2vh;
+
     grid-column: 1 / 5;
 }
 
 .create-todo-form .todo-name-input:focus{
-    outline:none;
+    outline: none;
     background-color: rgba(255, 255, 255, 0.115);
     transition: background-color 0.25s ease-in-out;
 }
 
 .create-todo-form .todo-priority-picker{
-    background-color: rgba(255, 255, 255, 0.11);
-    padding: 100px;
-    color:white;
-    border: none;
-    padding: 5px;
-    font-size: 2vh;
     margin: 5px;
     margin: 20px 20px;
+    padding: 100px;
+    padding: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.11);
+    color: white;
+    font-size: 2vh;
 }
 .create-todo-form label{
     padding: 10px;
 }
 
 .create-todo-form .due-date-picker{
+    margin-right: 20px;
+    border: unset;
     background-color: rgba(255, 255, 255, 0.11);
     color: white;
     font-size: 2vh;
-    border:unset;
-    margin-right: 20px;
 }
 
 .create-todo-form .accept-new-todo{
-    background-color: rgba(3, 95, 0, 0.603);
-    padding: 10px;
-    text-align: center;
     margin: 5px;
+    padding: 10px;
+    background-color: rgba(3, 95, 0, 0.603);
+    text-align: center;
+
     grid-column: 1 / 3;
 }
 
 .create-todo-form .cancel-new-todo{
-    background-color: rgba(95, 0, 0, 0.603);
-    padding: 10px;
-    text-align: center;
     margin: 5px;
+    padding: 10px;
+    background-color: rgba(95, 0, 0, 0.603);
+    text-align: center;
+
     grid-column: 3 / 5;
 }
 
 /* change items that display on hover to be always visible on touchscreens */
- @media (hover:none){
+@media (hover:none){
     .delete-todo-icon, .delete-project-icon{
         visibility: visible;
     }
- }
+}
 
 /* resize areas to fit mobile screens, display hamburger menu*/
 @media (max-width:900px){
     .create-todo-form label{
         text-align: right;
+
         grid-column: 1 / 3;
     }
     .create-todo-form .todo-priority-picker{
         margin: 0;
     }
     .create-todo-form select, .create-todo-form input[type='date']{
-        margin: 0px;
+        margin: 0;
         width: 80%;
+
         grid-column: 3 / 5;
     }
 
@@ -479,12 +484,12 @@ p.todo-title{
     }
 
     i.hamburger-menu{
-        display:unset;
+        display: unset;
     }
 
     #content{
-        height: 100vh;
         width: 100vw;
+        height: 100vh;
     }
 
     #header{
@@ -492,13 +497,13 @@ p.todo-title{
     }
 
     #main-wrapper{
-        height: 90%;
         flex-direction: column;
+        height: 90%;
     }
 
     .projects-picker{
         display: unset;
-        width:100%;
+        width: 100%;
         height: 100%;
     }
 
@@ -511,18 +516,17 @@ p.todo-title{
     }
 
     .project-area{
-        width:100%;
+        width: 100%;
         height: 100%;
     }
 
     .project-card{
-        width: 95%;
-        max-height: 95%;;
+        max-height: 95%;
+        width: 95%;;
     }
 
     .add-clear-todos{
         width: 90%;
-
     }
     .todo{
         width: 90%;
