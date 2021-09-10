@@ -425,6 +425,11 @@ p.todo-title{
     color: white;
     font-size: 2vh;
 }
+
+#todo-priority-picker option{
+    background-color: rgba(0, 51, 85, 0.589);
+}
+
 .create-todo-form label{
     padding: 10px;
 }
