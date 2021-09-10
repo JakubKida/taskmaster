@@ -26,11 +26,11 @@ export default class ToDo {
 
     getTimeLeft(){
         if(this._dueDate==='not set') return 'not set';
-        if(compareAsc(parseISO(this._dueDate),new Date())===-1) return 'Date passed!';   
+        if(compareAsc(parseISO(this._dueDate),new Date())===-1) return 'The date has passed!';   
         return formatDistance(parseISO(this._dueDate),new Date());
     }
 
-    isWithinInteral(period){
+    isWithinInterval(period){
         switch(period){
             case 'Today':
                 return differenceInDays(parseISO(this._dueDate),new Date())<=1;
